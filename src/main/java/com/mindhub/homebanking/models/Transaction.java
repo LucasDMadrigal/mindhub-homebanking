@@ -52,8 +52,28 @@ public class Transaction {
     public void setAccount(Account account) {
         this.account = account;
     }
-//    public void addTransaction (Transaction transaction){
-//        account.setClient(this);
-//        accounts.add(account);
-//    }
+
+    public long getId() {
+        return id;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
 }
