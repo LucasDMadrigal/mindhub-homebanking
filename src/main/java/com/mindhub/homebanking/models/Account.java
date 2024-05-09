@@ -30,7 +30,7 @@ public class Account {
     /*
      * RELACION ONE TO MANY CON TRANSACCIONES
      * */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transaction")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private Set<Transaction> transactions = new HashSet<>();
 
     public Account() {

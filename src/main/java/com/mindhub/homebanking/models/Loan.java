@@ -18,7 +18,7 @@ public class Loan {
 //    @ManyToMany
 //    private Set<Client> clients = new HashSet<>();
 
-    @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="loan", fetch=FetchType.EAGER)
     private Set<ClientLoan> clientLoans = new HashSet<>();
 
     /*
@@ -71,6 +71,10 @@ public class Loan {
         this.payments = payments;
     }
 
+    public void addClientLoan(ClientLoan clientLoan){
+        clientLoan.setLoan(this);
+        clientLoans.add(clientLoan);
+    }
 //    public void setClients(Set<Client> clients) {
 //        this.clients = clients;
 //    }

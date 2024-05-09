@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/clients")
+@RequestMapping("/api/clients")
 public class ClientController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class ClientController {
         List<Client> clientList = clientRepository.findAll();
         List<ClientDTO> clientDTOList = clientList.stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
 
-        if (clientList.isEmpty()){
+        if (!clientList.isEmpty()){
         return new ResponseEntity<>(clientDTOList, HttpStatus.OK);
         }else {
         return new ResponseEntity<>("No se encontraron clientes", HttpStatus.NOT_FOUND);

@@ -1,14 +1,8 @@
 package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.enums.TransactionType;
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Loan;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.LoanRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,7 +24,7 @@ public class HomebankingApplication {
 
 
     @Bean
-    public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository) {
+    public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository) {
         return (args) -> {
             System.out.println("Holis");
             Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com");
@@ -66,6 +60,28 @@ public class HomebankingApplication {
             loanRepository.save(mortgageLoan);
             loanRepository.save(personalLoan);
             loanRepository.save(automotiveLoan);
+
+//            ClientLoan clientLoan1 = new ClientLoan()
+
+            ClientLoan cliente1mortage = new ClientLoan(400000, 60, cliente1, mortgageLoan);
+            ClientLoan cliente1Personal = new ClientLoan(50000, 12, cliente1, personalLoan);
+
+            clientLoanRepository.save(cliente1mortage);
+            clientLoanRepository.save(cliente1Personal);
+
+            cliente1.addClientLoan(cliente1mortage);
+            cliente1.addClientLoan(cliente1Personal);
+
+            // Crear ClientLoan entities para el otro cliente
+            ClientLoan cliente2Personal = new ClientLoan(100000, 24, cliente2, personalLoan);
+            ClientLoan cliente2Automotive = new ClientLoan(200000, 36, cliente2, automotiveLoan);
+
+            cliente2.addClientLoan(cliente2Personal);
+            cliente2.addClientLoan(cliente2Automotive);
+
+            clientLoanRepository.save(cliente2Personal);
+            clientLoanRepository.save(cliente2Automotive);
+
         };
     }
 }
