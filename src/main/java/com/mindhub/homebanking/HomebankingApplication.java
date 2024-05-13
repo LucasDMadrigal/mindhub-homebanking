@@ -1,5 +1,7 @@
 package com.mindhub.homebanking;
 
+import com.mindhub.homebanking.enums.CardColor;
+import com.mindhub.homebanking.enums.CardType;
 import com.mindhub.homebanking.enums.TransactionType;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
@@ -24,7 +26,7 @@ public class HomebankingApplication {
 
 
     @Bean
-    public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository) {
+    public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
             System.out.println("Holis");
             Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com");
@@ -47,11 +49,11 @@ public class HomebankingApplication {
             transactionRepository.save(transaction1);
             transactionRepository.save(transaction2);
 
-            Set<Integer> mortgagePayments = Set.of(6, 12, 24,36,48, 60);
+            Set<Integer> mortgagePayments = Set.of(6, 12, 24, 36, 48, 60);
 
             Set<Integer> personalLoanPayments = Set.of(6, 12, 24);
 
-            Set<Integer> automotiveLoanPayments = Set.of(6, 12, 24,36);
+            Set<Integer> automotiveLoanPayments = Set.of(6, 12, 24, 36);
 
             Loan mortgageLoan = new Loan("Mortgage", 500000.0, mortgagePayments);
             Loan personalLoan = new Loan("Personal", 100000.0, personalLoanPayments);
@@ -61,7 +63,6 @@ public class HomebankingApplication {
             loanRepository.save(personalLoan);
             loanRepository.save(automotiveLoan);
 
-//            ClientLoan clientLoan1 = new ClientLoan()
 
             ClientLoan cliente1mortage = new ClientLoan(400000, 60, cliente1, mortgageLoan);
             ClientLoan cliente1Personal = new ClientLoan(50000, 12, cliente1, personalLoan);
@@ -72,7 +73,6 @@ public class HomebankingApplication {
             cliente1.addClientLoan(cliente1mortage);
             cliente1.addClientLoan(cliente1Personal);
 
-            // Crear ClientLoan entities para el otro cliente
             ClientLoan cliente2Personal = new ClientLoan(100000, 24, cliente2, personalLoan);
             ClientLoan cliente2Automotive = new ClientLoan(200000, 36, cliente2, automotiveLoan);
 
@@ -82,7 +82,35 @@ public class HomebankingApplication {
             clientLoanRepository.save(cliente2Personal);
             clientLoanRepository.save(cliente2Automotive);
 
+            LocalDate startDate = LocalDate.now();
+            LocalDate expirationDate = startDate.plusYears(5);
+            String cardholderName1 = cliente1.getFirstName() + " " + cliente1.getLastName();
+            String cardholderName2 = cliente2.getFirstName() + " " + cliente2.getLastName();
+            String number = "1234-5678-9012-3456";
+            String cvv = generateCVV();
+            Card card1 = new Card(cardholderName1, number, cvv, CardType.DEBIT, CardColor.GOLD, startDate, expirationDate, cliente1);
+            Card card2 = new Card(cardholderName1, number, cvv, CardType.CREDIT, CardColor.TITANIUM, startDate, expirationDate, cliente1);
+            Card card3 = new Card(cardholderName2, number, cvv, CardType.CREDIT, CardColor.SILVER, startDate, expirationDate, cliente2);
+
+            cardRepository.save(card1);
+            cliente1.addCard(card1);
+
+            cardRepository.save(card2);
+            cliente1.addCard(card2);
+
+            cardRepository.save(card3);
+            cliente2.addCard(card3);
         };
+
+
+    }
+
+    private String generateCardNumber() {
+        return "1234567890123456";
+    }
+
+    private String generateCVV() {
+        return "123";
     }
 }
 /**
