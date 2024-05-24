@@ -31,6 +31,8 @@ public class HomebankingApplication {
             System.out.println("Holis");
             Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", "$2a$12$o4xTvNj6pLMAmpOLWKpxOeBf5/Zx29nSNEacX.Ynrc2em/c1GRspK");
             Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", "$2a$12$o4xTvNj6pLMAmpOLWKpxOeBf5/Zx29nSNEacX.Ynrc2em/c1GRspK");
+//            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"));
+//            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"));
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 
