@@ -4,6 +4,8 @@ import com.mindhub.homebanking.DTO.ClientDTO;
 import com.mindhub.homebanking.DTO.LoginDTO;
 import com.mindhub.homebanking.DTO.RegisterDTO;
 import com.mindhub.homebanking.ServicesSecurity.JwtUtilService;
+import com.mindhub.homebanking.Utils.GenerateAccountNumber;
+import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
@@ -18,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -27,7 +31,6 @@ public class AuthController {
 
     @Autowired
     private ClientRepository clientRepository;
-
     @Autowired
     AccountRepository accountRepository;
 
@@ -79,7 +82,11 @@ public class AuthController {
                 passwordEncoder.encode(registerDTO.password())
         );
 
+        String accountNumber = GenerateAccountNumber.accountNumber();
         clientRepository.save(client);
+
+        Account newAccount = new Account(accountNumber, LocalDate.now(), 5000.0, client);
+        accountRepository.save(newAccount);
 
         return new ResponseEntity<>("Usuario creado",HttpStatus.CREATED);
     }

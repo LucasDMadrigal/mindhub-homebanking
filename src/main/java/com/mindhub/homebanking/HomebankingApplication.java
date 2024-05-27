@@ -5,11 +5,13 @@ import com.mindhub.homebanking.enums.CardType;
 import com.mindhub.homebanking.enums.TransactionType;
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,17 +26,15 @@ public class HomebankingApplication {
     public static void main(String[] args) {
         SpringApplication.run(HomebankingApplication.class, args);
     }
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
             System.out.println("Holis");
-//            System.out.println("auth"+authentication);
-            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", "$2a$12$o4xTvNj6pLMAmpOLWKpxOeBf5/Zx29nSNEacX.Ynrc2em/c1GRspK");
-            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", "$2a$12$o4xTvNj6pLMAmpOLWKpxOeBf5/Zx29nSNEacX.Ynrc2em/c1GRspK");
-//            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"));
-//            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"));
+            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"));
+            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"));
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 

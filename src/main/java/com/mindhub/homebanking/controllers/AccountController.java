@@ -6,6 +6,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.AccountDTO;
+import com.mindhub.homebanking.Utils.GenerateAccountNumber;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -57,15 +58,36 @@ public class AccountController {
     }
 
 
-    @PostMapping("/create")
+//    @PostMapping("/create")
+//    public ResponseEntity<?> createAccount(Authentication authentication) {
+//        boolean hasClientAuthority = authentication.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .anyMatch(authority -> authority.equals("ROLE_CLIENT"));
+//
+//        if (!hasClientAuthority) {
+//            return new ResponseEntity<>("Access denegadoo", HttpStatus.FORBIDDEN);
+//        }
+//
+//        Client client = clientRepository.findByEmail(authentication.getName());
+//
+//        if (client == null) {
+//            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+//        }
+//
+//        if (client.getAccounts().size() >= 3) {
+//            return new ResponseEntity<>("Client already has 3 accounts", HttpStatus.FORBIDDEN);
+//        }
+//
+//        String accountNumber = generateAccountNumber();
+//        Account newAccount = new Account(accountNumber, LocalDate.now(), 0.0, client);
+//
+//        accountRepository.save(newAccount);
+//
+//        return new ResponseEntity<>("Account created", HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/current/create")
     public ResponseEntity<?> createAccount(Authentication authentication) {
-//        System.out.println("authentication"+authentication);
-//        Client logedClient = getClient(authentication);
-        boolean hasClientAuthority = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("CLIENT"));
-        if (!hasClientAuthority) {
-            return new ResponseEntity<>("Access denegadoo", HttpStatus.FORBIDDEN);
-        }
 
         Client client = clientRepository.findByEmail(authentication.getName());
 
@@ -77,7 +99,7 @@ public class AccountController {
             return new ResponseEntity<>("Client already has 3 accounts", HttpStatus.FORBIDDEN);
         }
 
-        String accountNumber = generateAccountNumber();
+        String accountNumber = GenerateAccountNumber.accountNumber();
         Account newAccount = new Account(accountNumber, LocalDate.now(), 0.0, client);
 
         accountRepository.save(newAccount);
@@ -85,10 +107,10 @@ public class AccountController {
         return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }
 
-    private String generateAccountNumber() {
-        Random random = new Random();
-        int number = random.nextInt(90000000) + 10000000;
-        return "VIN-" + number;
-    }
+//    private String generateAccountNumber() {
+//        Random random = new Random();
+//        int number = random.nextInt(90000000) + 10000000;
+//        return "VIN-" + number;
+//    }
 }
 
