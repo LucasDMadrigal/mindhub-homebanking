@@ -78,10 +78,5 @@ public class AccountController {
         return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }
 
-//    private String generateAccountNumber() {
-//        Random random = new Random();
-//        int number = random.nextInt(90000000) + 10000000;
-//        return "VIN-" + number;
-//    }
 }
 

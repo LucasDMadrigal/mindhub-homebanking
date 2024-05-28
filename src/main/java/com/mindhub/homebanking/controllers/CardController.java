@@ -43,7 +43,6 @@ public class CardController {
     }
 
     @PostMapping("/current/create")
-//    public ResponseEntity<?> createCards(Authentication authentication, @RequestBody CardColor cardColor, @RequestBody CardType cardType) {
     public ResponseEntity<?> createCards(Authentication authentication, @RequestBody CreateCardDTO createCardDTO) {
         Client client = clientRepository.findByEmail(authentication.getName());
 
@@ -55,8 +54,6 @@ public class CardController {
             return new ResponseEntity<>("Client already has 3 Cards", HttpStatus.FORBIDDEN);
         }
 
-//        String color = cardColor.toString();
-//        String type = cardType.toString();
         CardColor cardColor;
         CardType cardType;
         try {
