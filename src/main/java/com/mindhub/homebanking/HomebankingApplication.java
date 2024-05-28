@@ -92,18 +92,18 @@ public class HomebankingApplication {
             String cardholderName2 = cliente2.getFirstName() + " " + cliente2.getLastName();
             String number = "1234-5678-9012-3456";
             String cvv = generateCVV();
-            Card card1 = new Card(cardholderName1, number, cvv, CardType.DEBIT, CardColor.GOLD, startDate, expirationDate, cliente1);
-            Card card2 = new Card(cardholderName1, number, cvv, CardType.CREDIT, CardColor.TITANIUM, startDate, expirationDate, cliente1);
-            Card card3 = new Card(cardholderName2, number, cvv, CardType.CREDIT, CardColor.SILVER, startDate, expirationDate, cliente2);
+//            Card card1 = new Card(cardholderName1, number, cvv, CardType.DEBIT, CardColor.GOLD, startDate, expirationDate, cliente1);
+//            Card card2 = new Card(cardholderName1, number, cvv, CardType.CREDIT, CardColor.TITANIUM, startDate, expirationDate, cliente1);
+//            Card card3 = new Card(cardholderName2, number, cvv, CardType.CREDIT, CardColor.SILVER, startDate, expirationDate, cliente2);
 
-            cardRepository.save(card1);
-            cliente1.addCard(card1);
-
-            cardRepository.save(card2);
-            cliente1.addCard(card2);
-
-            cardRepository.save(card3);
-            cliente2.addCard(card3);
+//            cardRepository.save(card1);
+//            cliente1.addCard(card1);
+//
+//            cardRepository.save(card2);
+//            cliente1.addCard(card2);
+//
+//            cardRepository.save(card3);
+//            cliente2.addCard(card3);
         };
 
 

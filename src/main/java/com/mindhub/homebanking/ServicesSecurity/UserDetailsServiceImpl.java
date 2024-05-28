@@ -24,6 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
+        /*
+        * TODO LOGICA DE ADMIN
+        * */
         return User.withUsername(username).password(client.getPassword()).roles("CLIENT").build();
     }
 }

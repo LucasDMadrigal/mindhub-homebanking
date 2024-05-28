@@ -57,35 +57,6 @@ public class AccountController {
         }
     }
 
-
-//    @PostMapping("/create")
-//    public ResponseEntity<?> createAccount(Authentication authentication) {
-//        boolean hasClientAuthority = authentication.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .anyMatch(authority -> authority.equals("ROLE_CLIENT"));
-//
-//        if (!hasClientAuthority) {
-//            return new ResponseEntity<>("Access denegadoo", HttpStatus.FORBIDDEN);
-//        }
-//
-//        Client client = clientRepository.findByEmail(authentication.getName());
-//
-//        if (client == null) {
-//            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//        if (client.getAccounts().size() >= 3) {
-//            return new ResponseEntity<>("Client already has 3 accounts", HttpStatus.FORBIDDEN);
-//        }
-//
-//        String accountNumber = generateAccountNumber();
-//        Account newAccount = new Account(accountNumber, LocalDate.now(), 0.0, client);
-//
-//        accountRepository.save(newAccount);
-//
-//        return new ResponseEntity<>("Account created", HttpStatus.CREATED);
-//    }
-
     @PostMapping("/current/create")
     public ResponseEntity<?> createAccount(Authentication authentication) {
 

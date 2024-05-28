@@ -30,8 +30,8 @@ public class Card {
     public Card() {
     }
 
-    public Card(String cardholder, String number, String CVV, CardType type, CardColor color, LocalDate fromDate, LocalDate thruDate, Client client) {
-        this.cardholder = cardholder;
+    public Card(String number, String CVV, CardType type, CardColor color, LocalDate fromDate, LocalDate thruDate, Client client) {
+//        this.cardholder = cardholder;
         this.number = number;
         this.CVV = CVV;
         this.type = type;
