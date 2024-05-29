@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/transactions")
@@ -40,9 +41,12 @@ public class TransactionController {
     @GetMapping("current/create")
     public ResponseEntity<?> createTransactions(Authentication authentication, @RequestBody CreateTransactionDTO createTransactionDTO) {
         Client client = clientRepository.findByEmail(authentication.getName());
+        Set<Account> clientAccounts = client.getAccounts();
         Account destinationAccount = accountRepository.findByNumber(createTransactionDTO.destinationAccount());
+        double destinationAccountBalance = destinationAccount.getBalance();
         Account sourceAccount = accountRepository.findByNumber(createTransactionDTO.sourceAccount());
-        double amount = createTransactionDTO.amount();
+        double sourceAccountBalance = sourceAccount.getBalance();
+        double transactionAmount = createTransactionDTO.amount();
         String description = createTransactionDTO.description();
         LocalDateTime date = LocalDateTime.now();
         TransactionType transactionType;
@@ -53,7 +57,6 @@ public class TransactionController {
             return new ResponseEntity<>("Tipo de transaccion invalido", HttpStatus.BAD_REQUEST);
         }
 
-        // Validar que las cuentas existan
         if (destinationAccount == null) {
             return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
         }
@@ -62,35 +65,38 @@ public class TransactionController {
             return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
         }
 
-        // Verificar que la cuenta de origen pertenece al cliente autenticado
         if (!sourceAccount.getClient().equals(client)) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
 
-        // Validar el monto
-        if (amount <= 0) {
+        if (transactionAmount <= 0) {
             return new ResponseEntity<>("Amount must be greater than zero", HttpStatus.BAD_REQUEST);
         }
 
-        // Verificar fondos suficientes
-        if (sourceAccount.getBalance() < amount) {
+        if (sourceAccount.getBalance() < transactionAmount) {
             return new ResponseEntity<>("Insufficient funds", HttpStatus.BAD_REQUEST);
         }
 
-        // Verificar que la cuenta de origen y destino no sean la misma
         if (sourceAccount.getNumber().equals(destinationAccount.getNumber())) {
             return new ResponseEntity<>("Source and destination accounts cannot be the same", HttpStatus.BAD_REQUEST);
         }
 
 
-        // Validar la descripción
         if (description == null || description.trim().isEmpty()) {
             return new ResponseEntity<>("Description cannot be empty", HttpStatus.BAD_REQUEST);
         }
 
-        Transaction newTransactionDebit = new Transaction(TransactionType.DEBIT, amount, description, date, sourceAccount);
-        Transaction newTransactionCredit = new Transaction(TransactionType.CREDIT, amount, description, date, destinationAccount);
+        sourceAccountBalance = sourceAccountBalance - transactionAmount;
+        sourceAccount.setBalance(sourceAccountBalance);
+        destinationAccountBalance = destinationAccountBalance + transactionAmount;
+        destinationAccount.setBalance(destinationAccountBalance);
+
+        accountRepository.save(sourceAccount);
+        accountRepository.save(destinationAccount);
+
+        Transaction newTransactionDebit = new Transaction(TransactionType.DEBIT, transactionAmount, description, date, sourceAccount);
+        Transaction newTransactionCredit = new Transaction(TransactionType.CREDIT, transactionAmount, description, date, destinationAccount);
 
         transactionRepository.save(newTransactionDebit);
         transactionRepository.save(newTransactionCredit);

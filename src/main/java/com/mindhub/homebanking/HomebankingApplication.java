@@ -43,15 +43,19 @@ public class HomebankingApplication {
 
             Account cuenta1 = new Account("653219132", today, 5000, cliente1);
             Account cuenta2 = new Account("9165516951", tomorrow, 7500, cliente1);
+            Account cuenta3 = new Account("9526569132", tomorrow, 7500, cliente2);
+            Account cuenta4 = new Account("6512219878", tomorrow, 7500, cliente2);
 
             AccountRepository.save(cuenta1);
             AccountRepository.save(cuenta2);
+            AccountRepository.save(cuenta3);
+            AccountRepository.save(cuenta4);
 
-            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 987654.66, "transact 1", LocalDateTime.now(), cuenta1);
-            Transaction transaction2 = new Transaction(TransactionType.DEBIT, 6548.66, "transact 2", LocalDateTime.now(), cuenta1);
-
-            transactionRepository.save(transaction1);
-            transactionRepository.save(transaction2);
+//            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 987654.66, "transact 1", LocalDateTime.now(), cuenta1);
+//            Transaction transaction2 = new Transaction(TransactionType.DEBIT, 6548.66, "transact 2", LocalDateTime.now(), cuenta1);
+//
+//            transactionRepository.save(transaction1);
+//            transactionRepository.save(transaction2);
 
             Set<Integer> mortgagePayments = Set.of(6, 12, 24, 36, 48, 60);
 
@@ -92,18 +96,7 @@ public class HomebankingApplication {
             String cardholderName2 = cliente2.getFirstName() + " " + cliente2.getLastName();
             String number = "1234-5678-9012-3456";
             String cvv = generateCVV();
-//            Card card1 = new Card(cardholderName1, number, cvv, CardType.DEBIT, CardColor.GOLD, startDate, expirationDate, cliente1);
-//            Card card2 = new Card(cardholderName1, number, cvv, CardType.CREDIT, CardColor.TITANIUM, startDate, expirationDate, cliente1);
-//            Card card3 = new Card(cardholderName2, number, cvv, CardType.CREDIT, CardColor.SILVER, startDate, expirationDate, cliente2);
 
-//            cardRepository.save(card1);
-//            cliente1.addCard(card1);
-//
-//            cardRepository.save(card2);
-//            cliente1.addCard(card2);
-//
-//            cardRepository.save(card3);
-//            cliente2.addCard(card3);
         };
 
 
