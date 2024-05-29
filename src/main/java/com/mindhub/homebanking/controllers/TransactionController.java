@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -42,9 +43,19 @@ public class TransactionController {
     public ResponseEntity<?> createTransactions(Authentication authentication, @RequestBody CreateTransactionDTO createTransactionDTO) {
         Client client = clientRepository.findByEmail(authentication.getName());
         Set<Account> clientAccounts = client.getAccounts();
-        Account destinationAccount = accountRepository.findByNumber(createTransactionDTO.destinationAccount());
+        Optional<Account> sourceAccountOptional = accountRepository.findByNumber(createTransactionDTO.sourceAccount());
+
+        if (!sourceAccountOptional.isPresent()) {
+            return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
+        }
+        Account sourceAccount = sourceAccountOptional.get();
+
+        Optional<Account> destinationAccountOptional = accountRepository.findByNumber(createTransactionDTO.destinationAccount());
+        if (!destinationAccountOptional.isPresent()) {
+            return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
+        }
+        Account destinationAccount = destinationAccountOptional.get();
         double destinationAccountBalance = destinationAccount.getBalance();
-        Account sourceAccount = accountRepository.findByNumber(createTransactionDTO.sourceAccount());
         double sourceAccountBalance = sourceAccount.getBalance();
         double transactionAmount = createTransactionDTO.amount();
         String description = createTransactionDTO.description();
@@ -57,13 +68,13 @@ public class TransactionController {
             return new ResponseEntity<>("Tipo de transaccion invalido", HttpStatus.BAD_REQUEST);
         }
 
-        if (destinationAccount == null) {
-            return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
-        }
-
-        if (sourceAccount == null) {
-            return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
-        }
+//        if (destinationAccount == null) {
+//            return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
+//        }
+//
+//        if (sourceAccount == null) {
+//            return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
+//        }
 
         if (!sourceAccount.getClient().equals(client)) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
@@ -74,7 +85,7 @@ public class TransactionController {
             return new ResponseEntity<>("Amount must be greater than zero", HttpStatus.BAD_REQUEST);
         }
 
-        if (sourceAccount.getBalance() < transactionAmount) {
+        if (sourceAccountBalance < transactionAmount) {
             return new ResponseEntity<>("Insufficient funds", HttpStatus.BAD_REQUEST);
         }
 
