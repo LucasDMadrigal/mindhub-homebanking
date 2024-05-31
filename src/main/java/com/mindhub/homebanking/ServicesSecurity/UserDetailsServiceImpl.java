@@ -27,6 +27,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         /*
         * TODO LOGICA DE ADMIN
         * */
-        return User.withUsername(username).password(client.getPassword()).roles("CLIENT").build();
+        String role = client.getIsAdmin() ? "ADMIN" : "CLIENT";
+
+        return User.withUsername(username)
+                .password(client.getPassword())
+                .roles(role)
+                .build();
     }
 }

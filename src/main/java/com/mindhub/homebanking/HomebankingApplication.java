@@ -33,8 +33,8 @@ public class HomebankingApplication {
     public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
             System.out.println("Holis");
-            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"));
-            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"));
+            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
+            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 

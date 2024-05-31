@@ -81,7 +81,8 @@ public class AuthController {
                 registerDTO.firstName(),
                 registerDTO.lastName(),
                 registerDTO.email(),
-                passwordEncoder.encode(registerDTO.password())
+                passwordEncoder.encode(registerDTO.password()),
+                false
         );
 
         String accountNumber = GenerateAccountNumber.accountNumber();
@@ -96,7 +97,6 @@ public class AuthController {
 
     @GetMapping("/current")
     public ResponseEntity<?> getClient(Authentication authentication){
-//        Client client = clientRepository.findByEmail(authentication.getName());
         Client client = clientService.getClientByEmail(authentication.getName());
         return ResponseEntity.ok(new ClientDTO(client));
     }

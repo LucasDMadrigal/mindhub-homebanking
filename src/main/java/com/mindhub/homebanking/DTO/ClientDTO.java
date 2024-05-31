@@ -12,6 +12,7 @@ public class ClientDTO {
     private long id;
     private String firstName;
     private String lastName;
+    private boolean isAdmin;
 
     private Set<ClientLoanDTO> loans;
     private Set<AccountDTO> accounts = new HashSet<>();
@@ -21,6 +22,7 @@ public class ClientDTO {
         this.id = client.getId();
         this.firstName = client.getFirstName();
         this.lastName = client.getLastName();
+        this.isAdmin = client.getIsAdmin();
         this.accounts = client.getAccounts()
                 .stream()
                 .map(clAcc -> new AccountDTO(clAcc))
@@ -52,5 +54,9 @@ public class ClientDTO {
 
     public Set<CardDTO> getCards() {
         return cards;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 }

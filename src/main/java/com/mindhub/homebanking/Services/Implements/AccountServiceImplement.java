@@ -5,10 +5,12 @@ import com.mindhub.homebanking.Services.AccountService;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class AccountServiceImplement implements AccountService {
 
     @Autowired
