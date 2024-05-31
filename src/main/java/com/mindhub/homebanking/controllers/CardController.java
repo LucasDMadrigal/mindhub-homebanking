@@ -2,6 +2,8 @@ package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.CardDTO;
 import com.mindhub.homebanking.DTO.CreateCardDTO;
+import com.mindhub.homebanking.Services.CardService;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.Utils.GenerateCVVNumber;
 import com.mindhub.homebanking.Utils.GenerateCardNumber;
 import com.mindhub.homebanking.enums.CardColor;
@@ -10,6 +12,7 @@ import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import jdk.jfr.Unsigned;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +28,14 @@ import java.util.stream.Collectors;
 public class CardController {
 
     @Autowired
-    CardRepository cardRepository;
+    CardService cardService;
 
     @Autowired
-    ClientRepository clientRepository;
-
+    ClientService clientService;
     @GetMapping("/")
     public ResponseEntity<?> getCards() {
-        List<Card> cardList = cardRepository.findAll();
-        List<CardDTO> cardDTOList = cardList.stream().map(CardDTO::new).collect(Collectors.toList());
+        List<Card> cardList = cardService.getCards();
+        List<CardDTO> cardDTOList = cardService.getCardsDto();
 
         if (cardList.isEmpty()) {
             return new ResponseEntity<>("No se encontraron tarjetas", HttpStatus.NOT_FOUND);
@@ -44,14 +46,14 @@ public class CardController {
 
     @PostMapping("/current/create")
     public ResponseEntity<?> createCards(Authentication authentication, @RequestBody CreateCardDTO createCardDTO) {
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getClientByEmail(authentication.getName());
 
         if (client == null) {
-            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Cliente no encontrado", HttpStatus.NOT_FOUND);
         }
 
         if (client.getCards().size() >= 3) {
-            return new ResponseEntity<>("Client already has 3 Cards", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("El cliente ya tiene 3 tarjetas", HttpStatus.FORBIDDEN);
         }
 
         CardColor cardColor;
@@ -60,7 +62,7 @@ public class CardController {
             cardColor =  CardColor.valueOf(createCardDTO.cardColor().toString().toUpperCase());
             cardType = CardType.valueOf(createCardDTO.cardType().toString().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("Invalid card color or type", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("color de tarjeta invalido", HttpStatus.BAD_REQUEST);
         }
 
         String cardNumber = GenerateCardNumber.cardNumber();
@@ -68,8 +70,8 @@ public class CardController {
         LocalDate creationDate = LocalDate.now();
         LocalDate expirationDate = creationDate.plusYears(5);
         Card newCard = new Card(cardNumber, cvvNumber, cardType, cardColor, creationDate, expirationDate, client);
-        cardRepository.save(newCard);
+        cardService.saveCard(newCard);
 
-        return new ResponseEntity<>("Card created", HttpStatus.CREATED);
+        return new ResponseEntity<>("Tarjeta creada", HttpStatus.CREATED);
     }
 }

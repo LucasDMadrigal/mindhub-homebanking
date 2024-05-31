@@ -68,34 +68,26 @@ public class TransactionController {
             return new ResponseEntity<>("Tipo de transaccion invalido", HttpStatus.BAD_REQUEST);
         }
 
-//        if (destinationAccount == null) {
-//            return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//        if (sourceAccount == null) {
-//            return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
-//        }
-
         if (!sourceAccount.getClient().equals(client)) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
 
         if (transactionAmount <= 0) {
-            return new ResponseEntity<>("Amount must be greater than zero", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("El monto debe ser mayor a cero", HttpStatus.BAD_REQUEST);
         }
 
         if (sourceAccountBalance < transactionAmount) {
-            return new ResponseEntity<>("Insufficient funds", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Fondos insuficientes", HttpStatus.BAD_REQUEST);
         }
 
         if (sourceAccount.getNumber().equals(destinationAccount.getNumber())) {
-            return new ResponseEntity<>("Source and destination accounts cannot be the same", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("las cuentas de origen y destino no pueden ser la misma", HttpStatus.BAD_REQUEST);
         }
 
 
         if (description == null || description.trim().isEmpty()) {
-            return new ResponseEntity<>("Description cannot be empty", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("La descripción no puede estar vacia", HttpStatus.BAD_REQUEST);
         }
 
         sourceAccountBalance = sourceAccountBalance - transactionAmount;

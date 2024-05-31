@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.ClientDTO;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/clients")
 public class ClientController {
 
+//    private ClientRepository clientRepository;
+
     @Autowired
-    private ClientRepository clientRepository;
-
+    ClientService clientService;
     @GetMapping("/")
-//    public String sayHello(){return "holis desde BK";}
         public ResponseEntity<?> getClients() {
-        List<Client> clientList = clientRepository.findAll();
-        List<ClientDTO> clientDTOList = clientList.stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
+        List<ClientDTO> clientDTOList = clientService.getClientsDto();
 
-        if (!clientList.isEmpty()){
+        if (!clientDTOList.isEmpty()){
         return new ResponseEntity<>(clientDTOList, HttpStatus.OK);
         }else {
         return new ResponseEntity<>("No se encontraron clientes", HttpStatus.NOT_FOUND);
@@ -37,14 +37,13 @@ public class ClientController {
     }
         @GetMapping("/{id}")
     public ResponseEntity<?> getClient (@PathVariable long id){
-        Client client = clientRepository.findById(id).orElse(null);
+        Client client = clientService.getClientById(id);
 
             if (client != null){
                 ClientDTO clientDto = new ClientDTO(client);
                 return new ResponseEntity<>(clientDto, HttpStatus.OK);
             }else {
                 return new ResponseEntity<>("No se encontraron resultados", HttpStatus.NOT_FOUND);
-
             }
 
         }

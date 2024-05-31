@@ -41,10 +41,10 @@ public class HomebankingApplication {
             ClientRepository.save(cliente1);
             ClientRepository.save(cliente2);
 
-            Account cuenta1 = new Account("653219132", today, 5000, cliente1);
-            Account cuenta2 = new Account("9165516951", tomorrow, 7500, cliente1);
-            Account cuenta3 = new Account("9526569132", tomorrow, 7500, cliente2);
-            Account cuenta4 = new Account("6512219878", tomorrow, 7500, cliente2);
+            Account cuenta1 = new Account("VIN-19132", today, 5000, cliente1);
+            Account cuenta2 = new Account("VIN-16951", tomorrow, 7500, cliente1);
+            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
+            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
 
             AccountRepository.save(cuenta1);
             AccountRepository.save(cuenta2);

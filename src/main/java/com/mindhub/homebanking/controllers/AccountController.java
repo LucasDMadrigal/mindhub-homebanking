@@ -6,6 +6,8 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.AccountDTO;
+import com.mindhub.homebanking.Services.AccountService;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.Utils.GenerateAccountNumber;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
@@ -26,17 +28,22 @@ import java.util.Random;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    ClientRepository clientRepository;
+//    @Autowired
+//    private AccountRepository accountRepository;
+//    @Autowired
+//    ClientRepository clientRepository;
 
+    @Autowired
+    AccountService accountService;
+
+    @Autowired
+    ClientService clientService;
     @GetMapping("/")
     public ResponseEntity<?> getAccounts() {
 
 
-        List<Account> accountList = accountRepository.findAll();
-        List<AccountDTO> accountDTOList = accountList.stream().map(AccountDTO::new).collect(Collectors.toList());
+        List<Account> accountList = accountService.getAccounts();
+        List<AccountDTO> accountDTOList = accountService.getAccountsDto();
 
         if (accountList.isEmpty()) {
             return new ResponseEntity<>("No se encontraron cuentas", HttpStatus.NOT_FOUND);
@@ -47,10 +54,10 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAccount(@PathVariable long id) {
-        Account account = accountRepository.findById(id).orElse(null);
+        Account account = accountService.getAccountById(id);
 
         if (account != null) {
-            AccountDTO accountDTO = new AccountDTO(account);
+            AccountDTO accountDTO = accountService.getAccountDto(account);
             return new ResponseEntity<>(accountDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No se encontraron resultados", HttpStatus.NOT_FOUND);
@@ -60,7 +67,7 @@ public class AccountController {
     @PostMapping("/current/create")
     public ResponseEntity<?> createAccount(Authentication authentication) {
 
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getClientByEmail(authentication.getName());
 
         if (client == null) {
             return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
@@ -73,7 +80,7 @@ public class AccountController {
         String accountNumber = GenerateAccountNumber.accountNumber();
         Account newAccount = new Account(accountNumber, LocalDate.now(), 0.0, client);
 
-        accountRepository.save(newAccount);
+        accountService.saveAccount(newAccount);
 
         return new ResponseEntity<>("Account created", HttpStatus.CREATED);
     }

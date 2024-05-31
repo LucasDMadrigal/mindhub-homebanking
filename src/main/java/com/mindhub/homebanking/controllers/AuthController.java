@@ -3,6 +3,7 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.DTO.ClientDTO;
 import com.mindhub.homebanking.DTO.LoginDTO;
 import com.mindhub.homebanking.DTO.RegisterDTO;
+import com.mindhub.homebanking.Services.ClientService;
 import com.mindhub.homebanking.ServicesSecurity.JwtUtilService;
 import com.mindhub.homebanking.Utils.GenerateAccountNumber;
 import com.mindhub.homebanking.models.Account;
@@ -30,7 +31,8 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private ClientRepository clientRepository;
+    ClientService clientService;
+//    private ClientRepository clientRepository;
     @Autowired
     AccountRepository accountRepository;
 
@@ -83,7 +85,8 @@ public class AuthController {
         );
 
         String accountNumber = GenerateAccountNumber.accountNumber();
-        clientRepository.save(client);
+//        clientRepository.save(client);
+        clientService.saveClient(client);
 
         Account newAccount = new Account(accountNumber, LocalDate.now(), 5000.0, client);
         accountRepository.save(newAccount);
@@ -93,7 +96,8 @@ public class AuthController {
 
     @GetMapping("/current")
     public ResponseEntity<?> getClient(Authentication authentication){
-        Client client = clientRepository.findByEmail(authentication.getName());
+//        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.getClientByEmail(authentication.getName());
         return ResponseEntity.ok(new ClientDTO(client));
     }
 
