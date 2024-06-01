@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +30,11 @@ public class AccountServiceImplement implements AccountService {
     @Override
     public Account getAccountById(long id) {
         return accountRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Optional<Account> getAccountByNumber(String number) {
+        return accountRepository.findByNumber(number);
     }
 
     @Override

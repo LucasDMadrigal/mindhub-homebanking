@@ -72,23 +72,23 @@ public class HomebankingApplication {
             loanRepository.save(automotiveLoan);
 
 
-            ClientLoan cliente1mortage = new ClientLoan(400000, 60, cliente1, mortgageLoan);
-            ClientLoan cliente1Personal = new ClientLoan(50000, 12, cliente1, personalLoan);
+//            ClientLoan cliente1mortage = new ClientLoan(400000, 60, cliente1, mortgageLoan);
+//            ClientLoan cliente1Personal = new ClientLoan(50000, 12, cliente1, personalLoan);
 
-            clientLoanRepository.save(cliente1mortage);
-            clientLoanRepository.save(cliente1Personal);
+//            clientLoanRepository.save(cliente1mortage);
+//            clientLoanRepository.save(cliente1Personal);
 
-            cliente1.addClientLoan(cliente1mortage);
-            cliente1.addClientLoan(cliente1Personal);
+//            cliente1.addClientLoan(cliente1mortage);
+//            cliente1.addClientLoan(cliente1Personal);
 
-            ClientLoan cliente2Personal = new ClientLoan(100000, 24, cliente2, personalLoan);
-            ClientLoan cliente2Automotive = new ClientLoan(200000, 36, cliente2, automotiveLoan);
+//            ClientLoan cliente2Personal = new ClientLoan(100000, 24, cliente2, personalLoan);
+//            ClientLoan cliente2Automotive = new ClientLoan(200000, 36, cliente2, automotiveLoan);
 
-            cliente2.addClientLoan(cliente2Personal);
-            cliente2.addClientLoan(cliente2Automotive);
+//            cliente2.addClientLoan(cliente2Personal);
+//            cliente2.addClientLoan(cliente2Automotive);
 
-            clientLoanRepository.save(cliente2Personal);
-            clientLoanRepository.save(cliente2Automotive);
+//            clientLoanRepository.save(cliente2Personal);
+//            clientLoanRepository.save(cliente2Automotive);
 
             LocalDate startDate = LocalDate.now();
             LocalDate expirationDate = startDate.plusYears(5);

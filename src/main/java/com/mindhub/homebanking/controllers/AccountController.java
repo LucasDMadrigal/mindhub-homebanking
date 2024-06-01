@@ -28,11 +28,6 @@ import java.util.Random;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-//    @Autowired
-//    private AccountRepository accountRepository;
-//    @Autowired
-//    ClientRepository clientRepository;
-
     @Autowired
     AccountService accountService;
 

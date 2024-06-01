@@ -1,6 +1,9 @@
 package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.DTO.CreateTransactionDTO;
+import com.mindhub.homebanking.Services.AccountService;
+import com.mindhub.homebanking.Services.ClientService;
+import com.mindhub.homebanking.Services.TransactionService;
 import com.mindhub.homebanking.enums.TransactionType;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
@@ -26,13 +29,16 @@ import java.util.Set;
 @RequestMapping("api/transactions")
 public class TransactionController {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private ClientRepository clientRepository;
+//    @Autowired
+//    private TransactionRepository transactionRepository;
 
+    @Autowired
+    ClientService clientService;
+    @Autowired
+    AccountService accountService;
+
+    @Autowired
+    TransactionService transactionService;
     @GetMapping("/")
     public ResponseEntity<?> getTransactions() {
         return new ResponseEntity<>("No se encontraron cuentas", HttpStatus.NOT_FOUND);
@@ -41,16 +47,16 @@ public class TransactionController {
     @Transactional
     @GetMapping("current/create")
     public ResponseEntity<?> createTransactions(Authentication authentication, @RequestBody CreateTransactionDTO createTransactionDTO) {
-        Client client = clientRepository.findByEmail(authentication.getName());
-        Set<Account> clientAccounts = client.getAccounts();
-        Optional<Account> sourceAccountOptional = accountRepository.findByNumber(createTransactionDTO.sourceAccount());
+        Client client = clientService.getClientByEmail(authentication.getName());
+
+        Optional<Account> sourceAccountOptional = accountService.getAccountByNumber(createTransactionDTO.sourceAccount());
 
         if (!sourceAccountOptional.isPresent()) {
             return new ResponseEntity<>("Source account not found", HttpStatus.NOT_FOUND);
         }
         Account sourceAccount = sourceAccountOptional.get();
 
-        Optional<Account> destinationAccountOptional = accountRepository.findByNumber(createTransactionDTO.destinationAccount());
+        Optional<Account> destinationAccountOptional = accountService.getAccountByNumber(createTransactionDTO.destinationAccount());
         if (!destinationAccountOptional.isPresent()) {
             return new ResponseEntity<>("Destination account not found", HttpStatus.NOT_FOUND);
         }
@@ -95,14 +101,14 @@ public class TransactionController {
         destinationAccountBalance = destinationAccountBalance + transactionAmount;
         destinationAccount.setBalance(destinationAccountBalance);
 
-        accountRepository.save(sourceAccount);
-        accountRepository.save(destinationAccount);
+        accountService.saveAccount(sourceAccount);
+        accountService.saveAccount(destinationAccount);
 
         Transaction newTransactionDebit = new Transaction(TransactionType.DEBIT, transactionAmount, description, date, sourceAccount);
         Transaction newTransactionCredit = new Transaction(TransactionType.CREDIT, transactionAmount, description, date, destinationAccount);
 
-        transactionRepository.save(newTransactionDebit);
-        transactionRepository.save(newTransactionCredit);
+        transactionService.saveTransaction(newTransactionDebit);
+        transactionService.saveTransaction(newTransactionCredit);
 
         return new ResponseEntity<>("Transaction created", HttpStatus.CREATED);
     }

@@ -24,9 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        /*
-        * TODO LOGICA DE ADMIN
-        * */
         String role = client.getIsAdmin() ? "ADMIN" : "CLIENT";
 
         return User.withUsername(username)
