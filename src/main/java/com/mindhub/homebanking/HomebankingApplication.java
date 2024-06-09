@@ -35,8 +35,8 @@ public class HomebankingApplication {
             System.out.println("Holis");
 //            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
 //            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
-            LocalDate today = LocalDate.now();
-            LocalDate tomorrow = today.plusDays(1);
+                LocalDate today = LocalDate.now();
+                LocalDate tomorrow = today.plusDays(1);
 
 //            ClientRepository.save(cliente1);
 //            ClientRepository.save(cliente2);
@@ -46,7 +46,7 @@ public class HomebankingApplication {
 //            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
 //            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
 
-//            AccountRepository.save(cuenta1);
+    //            AccountRepository.save(cuenta1);
 //            AccountRepository.save(cuenta2);
 //            AccountRepository.save(cuenta3);
 //            AccountRepository.save(cuenta4);
