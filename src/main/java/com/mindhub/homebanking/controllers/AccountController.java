@@ -34,9 +34,14 @@ public class AccountController {
     @Autowired
     ClientService clientService;
     @GetMapping("/")
-    public ResponseEntity<?> getAccounts() {
+    public ResponseEntity<?> getAccounts(Authentication authentication) {
 
+        Client client = clientService.getClientByEmail(authentication.getName());
+        String role = authentication.getAuthorities().toString();
 
+        if (client == null || role != "ADMIN"){
+            return new ResponseEntity<>("No tiene accesos", HttpStatus.FORBIDDEN);
+        }
         List<Account> accountList = accountService.getAccounts();
         List<AccountDTO> accountDTOList = accountService.getAccountsDto();
 
@@ -48,9 +53,10 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAccount(@PathVariable long id) {
+    public ResponseEntity<?> getAccount(@PathVariable long id, Authentication authentication) {
         Account account = accountService.getAccountById(id);
-
+        Client client = clientService.getClientByEmail(authentication.getName());
+        String role = authentication.getAuthorities().toString();
         if (account != null) {
             AccountDTO accountDTO = accountService.getAccountDto(account);
             return new ResponseEntity<>(accountDTO, HttpStatus.OK);

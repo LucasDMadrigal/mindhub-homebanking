@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,14 @@ public class ClientController {
     @Autowired
     ClientService clientService;
     @GetMapping("/")
-        public ResponseEntity<?> getClients() {
+        public ResponseEntity<?> getClients(Authentication authentication) {
+        Client client = clientService.getClientByEmail(authentication.getName());
+        String role = authentication.getAuthorities().toString();
+
+        if (client == null || role != "ADMIN"){
+            return new ResponseEntity<>("No tiene accesos", HttpStatus.FORBIDDEN);
+        }
+
         List<ClientDTO> clientDTOList = clientService.getClientsDto();
 
         if (!clientDTOList.isEmpty()){

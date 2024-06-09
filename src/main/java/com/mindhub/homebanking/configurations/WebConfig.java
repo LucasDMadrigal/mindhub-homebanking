@@ -33,8 +33,8 @@ public class WebConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
 
-                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(
-                        HeadersConfigurer.FrameOptionsConfig::disable))
+//                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(
+//                        HeadersConfigurer.FrameOptionsConfig::disable))
 
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("api/auth/login","api/auth/register", "h2-console/**").permitAll()
