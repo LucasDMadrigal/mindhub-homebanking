@@ -27,29 +27,29 @@ public class HomebankingApplication {
         SpringApplication.run(HomebankingApplication.class, args);
     }
     @Autowired
-    private PasswordEncoder passwordEncoder;
+//    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner initialData(ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository) {
         return (args) -> {
             System.out.println("Holis");
-            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
-            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
+//            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
+//            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
             LocalDate today = LocalDate.now();
             LocalDate tomorrow = today.plusDays(1);
 
-            ClientRepository.save(cliente1);
-            ClientRepository.save(cliente2);
+//            ClientRepository.save(cliente1);
+//            ClientRepository.save(cliente2);
 
-            Account cuenta1 = new Account("VIN-19132", today, 5000, cliente1);
-            Account cuenta2 = new Account("VIN-16951", tomorrow, 7500, cliente1);
-            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
-            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
+//            Account cuenta1 = new Account("VIN-19132", today, 5000, cliente1);
+//            Account cuenta2 = new Account("VIN-16951", tomorrow, 7500, cliente1);
+//            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
+//            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
 
-            AccountRepository.save(cuenta1);
-            AccountRepository.save(cuenta2);
-            AccountRepository.save(cuenta3);
-            AccountRepository.save(cuenta4);
+//            AccountRepository.save(cuenta1);
+//            AccountRepository.save(cuenta2);
+//            AccountRepository.save(cuenta3);
+//            AccountRepository.save(cuenta4);
 
 //            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 987654.66, "transact 1", LocalDateTime.now(), cuenta1);
 //            Transaction transaction2 = new Transaction(TransactionType.DEBIT, 6548.66, "transact 2", LocalDateTime.now(), cuenta1);
@@ -92,23 +92,23 @@ public class HomebankingApplication {
 
             LocalDate startDate = LocalDate.now();
             LocalDate expirationDate = startDate.plusYears(5);
-            String cardholderName1 = cliente1.getFirstName() + " " + cliente1.getLastName();
-            String cardholderName2 = cliente2.getFirstName() + " " + cliente2.getLastName();
+//            String cardholderName1 = cliente1.getFirstName() + " " + cliente1.getLastName();
+//            String cardholderName2 = cliente2.getFirstName() + " " + cliente2.getLastName();
             String number = "1234-5678-9012-3456";
-            String cvv = generateCVV();
+//            String cvv = generateCVV();
 
         };
 
 
     }
 
-    private String generateCardNumber() {
-        return "1234567890123456";
-    }
-
-    private String generateCVV() {
-        return "123";
-    }
+//    private String generateCardNumber() {
+//        return "1234567890123456";
+//    }
+//
+//    private String generateCVV() {
+//        return "123";
+//    }
 }
 /**
  * Name: Melba
