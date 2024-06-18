@@ -76,6 +76,11 @@ public class AuthController {
         if (registerDTO.password() == null || registerDTO.password().isBlank()) {
             return new ResponseEntity<>("password vacio",HttpStatus.BAD_REQUEST);
         }
+
+        Client existingClient = clientService.getClientByEmail(registerDTO.email());
+        if (existingClient != null) {
+            return new ResponseEntity<>("Email ya registrado", HttpStatus.BAD_REQUEST);
+        }
         Client client = new Client(
                 registerDTO.firstName(),
                 registerDTO.lastName(),
