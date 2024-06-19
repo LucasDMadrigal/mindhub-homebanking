@@ -65,12 +65,6 @@ public class TransactionController {
         LocalDateTime date = LocalDateTime.now();
         TransactionType transactionType;
 
-        try {
-            transactionType = TransactionType.valueOf(createTransactionDTO.transactionType().toString().toUpperCase());
-        }catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("Tipo de transaccion invalido", HttpStatus.BAD_REQUEST);
-        }
-
         if (!sourceAccount.getClient().equals(client)) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
