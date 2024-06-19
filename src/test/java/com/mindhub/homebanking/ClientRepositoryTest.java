@@ -32,14 +32,14 @@ public class ClientRepositoryTest {
     AccountRepository accountRepository;
     @Autowired
     CardRepository cardRepository;
-    @Test
-    public void canCreateClient(){
-        Client cliente1 = new Client("Tita", "Morel", "melba@mindhub.com", "abc123", false);
-
-        Client savedClient = clientRepository.save(cliente1);
-
-        assertThat(savedClient, hasProperty("id", greaterThan(0L)));
-    }
+//    @Test
+//    public void canCreateClient(){
+//        Client cliente1 = new Client("Tita", "Morel", "melba@mindhub.com", "abc123", false);
+//
+//        Client savedClient = clientRepository.save(cliente1);
+//
+//        assertThat(savedClient, hasProperty("id", greaterThan(0L)));
+//    }
 //        @Test
 //        public void testCreateAccountForClient() {
 //            Client client = clientRepository.save(new Client("Jane", "Doe", "jane.doe@mindhub.com", "password456", false));

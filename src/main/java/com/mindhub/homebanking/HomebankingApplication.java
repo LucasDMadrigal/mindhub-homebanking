@@ -26,52 +26,52 @@ public class HomebankingApplication {
     public static void main(String[] args) {
         SpringApplication.run(HomebankingApplication.class, args);
     }
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner initialData(
-//            ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository
+            ClientRepository ClientRepository, AccountRepository AccountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository
     ) {
         return (args) -> {
-//            System.out.println("Holis");
-//            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
-//            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
-//                LocalDate today = LocalDate.now();
-//                LocalDate tomorrow = today.plusDays(1);
+            System.out.println("Holis");
+            Client cliente1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("abc123"), false);
+            Client cliente2 = new Client("Rony", "Colleman", "rony@mindhub.com", passwordEncoder.encode("abc123"), true);
+                LocalDate today = LocalDate.now();
+                LocalDate tomorrow = today.plusDays(1);
+
+            ClientRepository.save(cliente1);
+            ClientRepository.save(cliente2);
+
+            Account cuenta1 = new Account("VIN-19132", today, 5000, cliente1);
+            Account cuenta2 = new Account("VIN-16951", tomorrow, 7500, cliente1);
+            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
+            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
+
+                AccountRepository.save(cuenta1);
+            AccountRepository.save(cuenta2);
+            AccountRepository.save(cuenta3);
+            AccountRepository.save(cuenta4);
+
+//            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 987654.66, "transact 1", LocalDateTime.now(), cuenta1);
+//            Transaction transaction2 = new Transaction(TransactionType.DEBIT, 6548.66, "transact 2", LocalDateTime.now(), cuenta1);
 //
-//            ClientRepository.save(cliente1);
-//            ClientRepository.save(cliente2);
-//
-//            Account cuenta1 = new Account("VIN-19132", today, 5000, cliente1);
-//            Account cuenta2 = new Account("VIN-16951", tomorrow, 7500, cliente1);
-//            Account cuenta3 = new Account("VIN-69132", tomorrow, 7500, cliente2);
-//            Account cuenta4 = new Account("VIN-19878", tomorrow, 7500, cliente2);
-//
-//                AccountRepository.save(cuenta1);
-//            AccountRepository.save(cuenta2);
-//            AccountRepository.save(cuenta3);
-//            AccountRepository.save(cuenta4);
-//
-////            Transaction transaction1 = new Transaction(TransactionType.CREDIT, 987654.66, "transact 1", LocalDateTime.now(), cuenta1);
-////            Transaction transaction2 = new Transaction(TransactionType.DEBIT, 6548.66, "transact 2", LocalDateTime.now(), cuenta1);
-////
-////            transactionRepository.save(transaction1);
-////            transactionRepository.save(transaction2);
-//
-//            Set<Integer> mortgagePayments = Set.of(6, 12, 24, 36, 48, 60);
-//
-//            Set<Integer> personalLoanPayments = Set.of(6, 12, 24);
-//
-//            Set<Integer> automotiveLoanPayments = Set.of(6, 12, 24, 36);
-//
-//            Loan mortgageLoan = new Loan("Mortgage", 500000.0, mortgagePayments);
-//            Loan personalLoan = new Loan("Personal", 100000.0, personalLoanPayments);
-//            Loan automotiveLoan = new Loan("Automotive", 300000.0, automotiveLoanPayments);
-//
-//            loanRepository.save(mortgageLoan);
-//            loanRepository.save(personalLoan);
-//            loanRepository.save(automotiveLoan);
+//            transactionRepository.save(transaction1);
+//            transactionRepository.save(transaction2);
+
+            Set<Integer> mortgagePayments = Set.of(6, 12, 24, 36, 48, 60);
+
+            Set<Integer> personalLoanPayments = Set.of(6, 12, 24);
+
+            Set<Integer> automotiveLoanPayments = Set.of(6, 12, 24, 36);
+
+            Loan mortgageLoan = new Loan("Mortgage", 500000.0, mortgagePayments);
+            Loan personalLoan = new Loan("Personal", 100000.0, personalLoanPayments);
+            Loan automotiveLoan = new Loan("Automotive", 300000.0, automotiveLoanPayments);
+
+            loanRepository.save(mortgageLoan);
+            loanRepository.save(personalLoan);
+            loanRepository.save(automotiveLoan);
 
 
 //            ClientLoan cliente1mortage = new ClientLoan(400000, 60, cliente1, mortgageLoan);

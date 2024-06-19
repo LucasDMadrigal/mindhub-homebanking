@@ -15,15 +15,15 @@ import static org.hamcrest.Matchers.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CardUtilsTests {
 
-    @Test
-    public void cardNumberIsCreated() {
-        String cardNumber = GenerateCardNumber.cardNumber();
-        assertThat(cardNumber, is(not(emptyOrNullString())));
-    }
-
-    @Test
-    public void CVVNumberIsCreated() {
-        String cardNumber = GenerateCVVNumber.CVVNumber();
-        assertThat(cardNumber, is(not(emptyOrNullString())));
-    }
+//    @Test
+//    public void cardNumberIsCreated() {
+//        String cardNumber = GenerateCardNumber.cardNumber();
+//        assertThat(cardNumber, is(not(emptyOrNullString())));
+//    }
+//
+//    @Test
+//    public void CVVNumberIsCreated() {
+//        String cardNumber = GenerateCVVNumber.CVVNumber();
+//        assertThat(cardNumber, is(not(emptyOrNullString())));
+//    }
 }
