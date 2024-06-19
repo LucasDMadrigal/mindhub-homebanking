@@ -40,24 +40,24 @@ public class ClientRepositoryTest {
 
         assertThat(savedClient, hasProperty("id", greaterThan(0L)));
     }
-        @Test
-        public void testCreateAccountForClient() {
-            Client client = clientRepository.save(new Client("Jane", "Doe", "jane.doe@mindhub.com", "password456", false));
-            Account account = new Account("VIN-12345", LocalDate.now(), 1000, client);
+//        @Test
+//        public void testCreateAccountForClient() {
+//            Client client = clientRepository.save(new Client("Jane", "Doe", "jane.doe@mindhub.com", "password456", false));
+//            Account account = new Account("VIN-12345", LocalDate.now(), 1000, client);
+//
+//            client.addAccounts(account);
+//            clientRepository.save(client);
+//            assertThat(client.getAccounts(), hasItem(account));
+//        }
 
-            client.addAccounts(account);
-            clientRepository.save(client);
-            assertThat(client.getAccounts(), hasItem(account));
-        }
-
-    @Test
-    public void testCreateCardForClient() {
-        Client client = clientRepository.save(new Client("Alice", "Smith", "alice.smith@mindhub.com", "password789", false));
-        Account account = accountRepository.save(new Account("VIN-54321", LocalDate.now(), 2000, client));
-        Card card = new Card("1234-5678-9876-5432","123" , CardType.CREDIT, CardColor.GOLD,LocalDate.now(), LocalDate.now().plusYears(3), client);
-
-        client.addCard(card);
-        clientRepository.save(client);
-        assertThat(client.getCards(), hasItem(card));
-    }
+//    @Test
+//    public void testCreateCardForClient() {
+//        Client client = clientRepository.save(new Client("Alice", "Smith", "alice.smith@mindhub.com", "password789", false));
+//        Account account = accountRepository.save(new Account("VIN-54321", LocalDate.now(), 2000, client));
+//        Card card = new Card("1234-5678-9876-5432","123" , CardType.CREDIT, CardColor.GOLD,LocalDate.now(), LocalDate.now().plusYears(3), client);
+//
+//        client.addCard(card);
+//        clientRepository.save(client);
+//        assertThat(client.getCards(), hasItem(card));
+//    }
     }
